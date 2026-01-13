@@ -25,6 +25,12 @@ export const GetForumPostSchema = z.object({
     threadId: z.string()
 });
 
+export const ListForumThreadsSchema = z.object({
+    forumChannelId: z.string(),
+    includeArchived: z.boolean().optional().default(true),
+    limit: z.number().min(1).max(100).optional().default(100)
+});
+
 export const ReplyToForumSchema = z.object({
     threadId: z.string(),
     message: z.string()
