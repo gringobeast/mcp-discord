@@ -8,10 +8,26 @@ export const DiscordLoginSchema = z.object({
 
 export const SendMessageSchema = z.object({
     channelId: z.string({ description: "The ID of the channel to send the message to." }),
-    message: z.string({ description: "The content of the message to send." }),
-    replyToMessageId: z.string({ description: "The ID of the message to reply to, if any." }).optional()
+    message: z.string({ description: "The content of the message to send." }).optional(),
+    replyToMessageId: z.string({ description: "The ID of the message to reply to, if any." }).optional(),
+    embeds: z.array(z.object({
+        title: z.string().optional(),
+        description: z.string().optional(),
+        color: z.number({ description: "Decimal color e.g. 3066993 green, 16312092 yellow, 15158332 red" }).optional(),
+        fields: z.array(z.object({
+            name: z.string(),
+            value: z.string(),
+            inline: z.boolean().optional()
+        })).optional(),
+        footer: z.object({
+            text: z.string(),
+            icon_url: z.string().optional()
+        }).optional(),
+        url: z.string().optional(),
+        timestamp: z.string().optional()
+    })).optional()
 }, {
-    description: "Send a message to a specified channel, optionally as a reply to another message."
+    description: "Send a message to a specified channel, optionally as a reply to another message. Supports Discord embeds."
 });
 
 export const GetForumChannelsSchema = z.object({
