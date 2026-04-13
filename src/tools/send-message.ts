@@ -3,7 +3,7 @@ import { ToolHandler } from './types.js';
 import { handleDiscordError } from "../errorHandler.js";
 
 export const sendMessageHandler: ToolHandler = async (args, { client }) => {
-  const { channelId, message, replyToMessageId } = SendMessageSchema.parse(args);
+  const { channelId, message, replyToMessageId, embeds } = SendMessageSchema.parse(args);
   
   try {
     if (!client.isReady()) {
@@ -47,8 +47,9 @@ export const sendMessageHandler: ToolHandler = async (args, { client }) => {
         }
       }
       
-      // Set the message content
-      messageOptions.content = message;
+            // Set content and embeds
+      if (message) messageOptions.content = message;
+      if (embeds && embeds.length > 0) messageOptions.embeds = embeds;
       
       await channel.send(messageOptions);
       
