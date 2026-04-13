@@ -51,18 +51,50 @@ export const toolList = [
     }
   },
   {
-    name: "discord_send",
-    description: "Sends a message to a specified Discord text channel. Optionally reply to another message by providing its message ID.",
-    inputSchema: {
-      type: "object",
-      properties: {
-        channelId: { type: "string" },
-        message: { type: "string" },
-        replyToMessageId: { type: "string" }
-      },
-      required: ["channelId", "message"]
-    }
-  },
+  name: "discord_send",
+  description: "Sends a message to a specified Discord text channel. Optionally reply to another message by providing its message ID. Supports Discord embeds via the embeds array.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      channelId: { type: "string" },
+      message: { type: "string" },
+      replyToMessageId: { type: "string" },
+      embeds: {
+        type: "array",
+        description: "Array of Discord embed objects",
+        items: {
+          type: "object",
+          properties: {
+            title:       { type: "string" },
+            description: { type: "string" },
+            color:       { type: "number", description: "Decimal color integer e.g. 3066993 for green" },
+            fields: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  name:   { type: "string" },
+                  value:  { type: "string" },
+                  inline: { type: "boolean" }
+                }
+              }
+            },
+            footer: {
+              type: "object",
+              properties: {
+                text:     { type: "string" },
+                icon_url: { type: "string" }
+              }
+            },
+            url:       { type: "string" },
+            timestamp: { type: "string" }
+          }
+        }
+      }
+    },
+    required: ["channelId"]
+  }
+},
   {
     name: "discord_get_forum_channels",
     description: "Lists all forum channels in a specified Discord server (guild)",
